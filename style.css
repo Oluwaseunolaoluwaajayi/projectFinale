@@ -8,6 +8,7 @@
 .genLayout {
   max-width: 1000px;
   margin: auto;
+  padding: 2rem;
 }
 
 .topmostNav {
@@ -423,24 +424,97 @@ footer {
 footer p {
   color: black;
 }
-/* Mobile devices (max-width: 768px) */
+
+/* Responsive Breakpoints */
+
+/* Mobile Devices (max-width: 768px) */
 @media only screen and (max-width: 768px) {
   .genLayout {
-    padding: 0 20px;
+    padding: 1rem;
+  }
+  .topmostNav {
+    padding-block: 0.5rem;
+  }
+  .innerNav {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .navItems {
     flex-direction: column;
+    gap: 10px;
   }
   .secOne {
     flex-direction: column;
+    padding: 1rem;
   }
   .secOne img {
     width: 100%;
+    height: auto;
   }
-  .galItems {
-    grid-template-columns: repeat(1, 1fr);
+  .secTwo {
+    margin-top: 0;
+  }
+  .bannerCards {
+    flex-direction: column;
+    align-items: center;
   }
   .featureCard {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .galItems {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testiMonial-image {
+    width: 100%;
+    height: auto;
+  }
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+  .secEight {
+    padding: 1rem;
+  }
+  .cont-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet Devices (max-width: 1024px) */
+@media only screen and (max-width: 1024px) {
+  .genLayout {
+    padding: 1.5rem;
+  }
+  .featureCard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .galItems {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large Mobile Devices (max-width: 600px) */
+@media only screen and (max-width: 600px) {
+  .secOne h1 {
+    font-size: 2rem;
+  }
+  .vidSec h4 {
+    font-size: 1.5rem;
+  }
+  .testiMonial h5 {
+    font-size: 1.2rem;
+  }
+  .profile-image {
+    width: 80px;
+    height: 80px;
+  }
+}
+/* Custom Breakpoints */
+
+/* Large Screens (min-width: 1200px) */
+@media only screen and (min-width: 1200px) {
+  .genLayout {
+    max-width: 1200px;
   }
 }
