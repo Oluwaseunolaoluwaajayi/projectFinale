@@ -426,96 +426,263 @@ footer p {
   color: black;
 }
 
-/* Responsive Breakpoints */
+/* for nav bar */
 
-/* Mobile Devices (max-width: 768px) */
 @media only screen and (max-width: 768px) {
-  .genLayout {
-    padding: 1rem;
-  }
-  .topmostNav {
-    padding-block: 0.5rem;
-  }
   .innerNav {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .navItems {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .secOne {
-    flex-direction: column;
-    padding: 1rem;
-  }
-  .secOne img {
-    width: 100%;
-    height: auto;
-  }
-  .secTwo {
-    margin-top: 0;
-  }
-  .bannerCards {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
   }
-  .featureCard {
-    grid-template-columns: repeat(2, 1fr);
+
+  .hamburger {
+    display: inline-block;
+    font-size: 1.5rem;
+    cursor: pointer;
   }
-  .galItems {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .testiMonial-image {
-    width: 100%;
-    height: auto;
-  }
-  .profile-image {
-    width: 100px;
-    height: 100px;
-  }
-  .secEight {
+
+  #toggle:checked ~ .navRight .navItems {
+    display: flex; /* Display nav items when hamburger is clicked */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background-color: bisque;
     padding: 1rem;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    z-index: 5;
   }
-  .cont-content {
-    grid-template-columns: repeat(2, 1fr);
+
+  .navItems {
+    display: none; /* Hide nav items initially on mobile */
+  }
+
+  .btn {
+    width: 80px;
+    height: 40px;
   }
 }
 
-/* Tablet Devices (max-width: 1024px) */
-@media only screen and (max-width: 1024px) {
-  .genLayout {
+/* for secone */
+
+@media only screen and (max-width: 768px) {
+  .secOne {
+    flex-direction: column;
+    align-items: center;
     padding: 1.5rem;
   }
+
+  .bannerOne h1 {
+    font-size: 4rem; /* Slightly smaller font size */
+  }
+
+  .bannerOne p {
+    font-size: 1rem;
+    text-align: center; /* Center align text for better readability */
+  }
+
+  .secOne img {
+    width: 400px; /* Reduce image size */
+    margin-top: 1rem;
+  }
+}
+/* secthree */
+/* Large mobile screens (max-width: 768px) */
+@media only screen and (max-width: 768px) {
+  .secThree {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    margin: 1.5rem;
+  }
+
+  .vidSec h1 {
+    font-size: 1.8rem; /* Adjust font size for readability */
+    text-align: center;
+  }
+
+  .vidSec p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .secThree video {
+    width: 480px; /* Reduce video size for larger mobile screens */
+  }
+}
+
+/* Small mobile screens (max-width: 480px) */
+@media only screen and (max-width: 480px) {
+  .secThree {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .vidSec h1 {
+    font-size: 1.5rem; /* Further reduce font size */
+    text-align: center;
+  }
+
+  .vidSec p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .secThree video {
+    width: 100%; /* Full width for very small screens */
+    height: auto;
+  }
+}
+
+/* secfour */
+
+@media only screen and (max-width: 768px) {
   .featureCard {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Change to 2 columns */
   }
 
-  .galItems {
-    grid-template-columns: repeat(3, 1fr);
+  .serviceCard {
+    width: 90%; /* Allow cards to take up more width */
+    height: auto; /* Let height adjust based on content */
+    padding: 2rem; /* Adjust padding for better spacing */
+  }
+
+  #fet {
+    font-size: 1.8rem; /* Slightly smaller font size */
+  }
+
+  .Feature h2 {
+    font-size: 1.3rem; /* Smaller subtitle */
   }
 }
 
-/* Large Mobile Devices (max-width: 600px) */
-@media only screen and (max-width: 600px) {
-  .secOne h1 {
-    font-size: 2rem;
+/* Small mobile screens (max-width: 480px) */
+@media only screen and (max-width: 480px) {
+  .featureCard {
+    grid-template-columns: 1fr; /* Change to a single column */
   }
-  .vidSec h4 {
-    font-size: 1.5rem;
+
+  .serviceCard {
+    width: 100%; /* Full width for small screens */
+    padding: 1.5rem; /* Further reduce padding */
   }
-  .testiMonial h5 {
-    font-size: 1.2rem;
+
+  #fet {
+    font-size: 1.5rem; /* Further reduce font size */
   }
+
+  .Feature h2 {
+    font-size: 1.2rem; /* Smaller subtitle for small screens */
+  }
+}
+
+/* testimonials section six */
+
+@media only screen and (max-width: 768px) {
+  .testimonial-content {
+    flex-direction: column; /* Stack the content vertically */
+    align-items: center; /* Center-align items */
+  }
+
+  .testiMonial-image-container {
+    margin-right: 0; /* Remove margin in vertical layout */
+    margin-bottom: 15px; /* Add some space below the image */
+  }
+
+  .testiMonial-image {
+    width: 80%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .profile-info {
+    text-align: center; /* Center-align profile info */
+  }
+}
+
+/* Small mobile screens (max-width: 480px) */
+@media only screen and (max-width: 480px) {
+  .testimonial-title {
+    font-size: 0.9rem; /* Smaller font size for the title */
+  }
+
   .profile-image {
-    width: 80px;
-    height: 80px;
+    width: 120px; /* Reduce profile image size */
+    height: 120px; /* Maintain aspect ratio */
+  }
+
+  .testiMonial-image {
+    width: 100%; /* Full width for small screens */
+    height: auto; /* Maintain aspect ratio */
   }
 }
-/* Custom Breakpoints */
 
-/* Large Screens (min-width: 1200px) */
-@media only screen and (min-width: 1200px) {
-  .genLayout {
-    max-width: 1200px;
+/* section 7 */
+
+@media only screen and (max-width: 768px) {
+  .logoWrapper {
+    flex-direction: column; /* Stack the logo and sign up section */
+    align-items: center; /* Center-align items */
+  }
+
+  .sign-container {
+    flex-direction: column; /* Stack the content vertically */
+    align-items: center; /* Center-align items */
+    width: 100%; /* Ensure full width */
+  }
+
+  .sign-image {
+    width: 50%; /* Make image wider on smaller screens */
+    margin-right: 0; /* Remove margin */
+    margin-bottom: 15px; /* Add space below the image */
+  }
+
+  .sign {
+    width: 100%; /* Full width for sign section */
+    text-align: center; /* Center text on small screens */
+  }
+
+  .newsletterForm input[type="text"] {
+    width: 100%; /* Full width input */
+    max-width: 300px; /* Maximum width for input */
+  }
+}
+
+/* Small mobile screens (max-width: 480px) */
+@media only screen and (max-width: 480px) {
+  .sign-container {
+    padding: 0 10px; /* Reduce padding for small screens */
+  }
+
+  .newsletterForm input[type="text"] {
+    padding: 12px; /* Reduce padding for input */
+  }
+
+  .newsletterForm button[type="submit"] {
+    padding: 8px 15px; /* Reduce padding for button */
+  }
+}
+
+/* section 8 */
+
+@media only screen and (max-width: 768px) {
+  .cont-content {
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  }
+}
+
+/* Small mobile screens (max-width: 480px) */
+@media only screen and (max-width: 480px) {
+  .cont-content {
+    grid-template-columns: 1fr; /* Single column layout */
+  }
+
+  .newsletterForm input[type="text"] {
+    width: 100%; /* Full width for input */
+    padding: 0.75rem; /* Increase padding for better touch targets */
+  }
+
+  .newsletterForm button {
+    padding: 0.75rem; /* Increase button padding */
   }
 }
