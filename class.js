@@ -1,65 +1,46 @@
 // Select all add-to-cart buttons
+// Constants
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
-
-// Select cart section and cart items container
 const cartSection = document.querySelector('.cart-section');
 const cartItemsContainer = document.querySelector('.cart-items');
-
-// Select clear cart button
+const totalElement = document.querySelector('.total');
 const clearCartButton = document.querySelector('.clear-cart');
 
-// Initialize cart
+// Cart initialization
 let cart = [];
 
-// Add event listener to each add-to-cart button
+// Event listeners for add-to-cart buttons
 addToCartButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
-    // Get the item's information
-    const itemInfo = {
-      name: e.target.parentNode.querySelector('h6').textContent,
-      price: e.target.parentNode.querySelector('p:nth-child(4)').textContent.trim(),
-    };
-
-    // Add item to cart
+    const itemInfo = getItemInfo(e.target.parentNode);
     cart.push(itemInfo);
-
-    // Update cart display and save to local storage
+    console.log(`Total Amount: $${calculateTotal().toFixed(2)}`);
     updateCartDisplay();
     saveCartToLocalStorage();
   });
 });
 
+// Helper function to get item info
+function getItemInfo(itemNode) {
+  return {
+    name: itemNode.querySelector('h6').textContent,
+    price: itemNode.querySelector('p:nth-child(4)').textContent.trim(),
+  };
+}
+
 // Update cart display function
 function updateCartDisplay() {
-  // Clear cart items container
   cartItemsContainer.innerHTML = '';
-
-  // Loop through cart items
   cart.forEach((item, index) => {
-    // Create cart item element
     const cartItemElement = document.createElement('div');
-    cartItemElement.innerHTML = `
+cartItemElement.innerHTML = `
       ${item.name} - ${item.price}
       <button class="remove-from-cart" data-index="${index}">Remove</button>
     `;
-
-    // Append cart item element to cart items container
     cartItemsContainer.appendChild(cartItemElement);
   });
-
-  // Update total
-  const totalElement = document.querySelector('.total');
   totalElement.textContent = `$${calculateTotal().toFixed(2)}`;
-
-  // Set up event listener for remove buttons (event delegation)
-  cartItemsContainer.addEventListener('click', (e) => {
-    if (e.target.classList.contains('remove-from-cart')) {
-      const index = e.target.getAttribute('data-index');
-      cart.splice(index, 1);
-      updateCartDisplay();
-      saveCartToLocalStorage();
-    }
-  });
+  setupRemoveEventListeners();
 }
 
 // Calculate total function
@@ -83,16 +64,30 @@ function loadCartFromLocalStorage() {
     updateCartDisplay();
   }
 }
-
 // Load cart from local storage on page load
 loadCartFromLocalStorage();
 
-// Add event listener to clear cart button
+// Setup event listeners for remove buttons
+function setupRemoveEventListeners() {
+  cartItemsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-from-cart')) {
+      const index = e.target.getAttribute('data-index');
+      cart.splice(index, 1);
+      updateCartDisplay();
+      saveCartToLocalStorage();
+    }
+  });
+}
+
+// Clear cart event listener
 clearCartButton.addEventListener('click', () => {
   cart = [];
   updateCartDisplay();
   saveCartToLocalStorage();
 });
+
+
+
 
 
 // Select video and play button elements
