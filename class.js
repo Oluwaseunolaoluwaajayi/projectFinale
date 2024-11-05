@@ -17,7 +17,7 @@ addToCartButtons.forEach((button) => {
     // Get the item's information
     const itemInfo = {
       name: e.target.parentNode.querySelector('h6').textContent,
-      price: e.target.parentNode.querySelector('p:nth-child(4)').textContent,
+      price: e.target.parentNode.querySelector('p:nth-child(4)').textContent.trim(),
     };
 
     // Add item to cart
@@ -43,16 +43,6 @@ function updateCartDisplay() {
       <button class="remove-from-cart" data-index="${index}">Remove</button>
     `;
 
-    // Add event listener to remove-from-cart button
-    cartItemElement.querySelector('.remove-from-cart').addEventListener('click', () => {
-      // Remove item from cart
-      cart.splice(index, 1);
-
-      // Update cart display and save to local storage
-      updateCartDisplay();
-      saveCartToLocalStorage();
-    });
-
     // Append cart item element to cart items container
     cartItemsContainer.appendChild(cartItemElement);
   });
@@ -60,6 +50,16 @@ function updateCartDisplay() {
   // Update total
   const totalElement = document.querySelector('.total');
   totalElement.textContent = `$${calculateTotal().toFixed(2)}`;
+
+  // Set up event listener for remove buttons (event delegation)
+  cartItemsContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-from-cart')) {
+      const index = e.target.getAttribute('data-index');
+      cart.splice(index, 1);
+      updateCartDisplay();
+      saveCartToLocalStorage();
+    }
+  });
 }
 
 // Calculate total function
@@ -72,19 +72,15 @@ function calculateTotal() {
 
 // Save cart to local storage function
 function saveCartToLocalStorage() {
-  if (window.localStorage) {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 // Load cart from local storage function
 function loadCartFromLocalStorage() {
-  if (window.localStorage) {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-      cart = JSON.parse(storedCart);
-      updateCartDisplay();
-    }
+  const storedCart = localStorage.getItem('cart');
+  if (storedCart) {
+    cart = JSON.parse(storedCart);
+    updateCartDisplay();
   }
 }
 
@@ -93,10 +89,51 @@ loadCartFromLocalStorage();
 
 // Add event listener to clear cart button
 clearCartButton.addEventListener('click', () => {
-  // Clear cart
   cart = [];
+  updateCartDisplay();
+  saveCartToLocalStorage();
+});
 
-  // Update cart display and save to local storage
+
+// Select video and play button elements
+const videoElement = document.querySelector('.video');
+const playButton = document.querySelector('.play-button');
+
+// Function to play/pause the video
+function toggleVideoPlay() {
+  if (videoElement.paused) {
+    videoElement.play();
+    playButton.textContent = "Pause";
+  } else {
+    videoElement.pause();
+    playButton.textContent = "Play";
+  }
+}
+
+// Add event listener to play button
+playButton.addEventListener('click', toggleVideoPlay);
+
+
+// Select the add-to-cart button in `.secTwo` section
+const secTwoAddToCartButton = document.querySelector('.secTwo .add-to-cart');
+
+// Function to get item details from `.secTwo`
+function getItemDetails() {
+  const productBrand = document.querySelector('.secTwo .bannerTopCards:nth-child(1) p').textContent;
+  const productGender = document.querySelector('.secTwo .bannerTopCards:nth-child(2) p').textContent;
+  const productSize = document.querySelector('.secTwo .bannerTopCards:nth-child(3) p').textContent;
+  const productPrice = document.querySelector('.secTwo .bannerTopCards:nth-child(4) p').textContent;
+
+  return {
+    name: `${productBrand} - ${productGender} - ${productSize}`,
+    price: productPrice.trim(),
+  };
+}
+
+// Add event listener to `.secTwo` add-to-cart button
+secTwoAddToCartButton.addEventListener('click', () => {
+  const itemInfo = getItemDetails();
+  cart.push(itemInfo);
   updateCartDisplay();
   saveCartToLocalStorage();
 });

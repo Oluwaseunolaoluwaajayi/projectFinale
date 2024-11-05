@@ -55,30 +55,54 @@
 
       <section class="secTwo">
         <div class="bannerCards genLayout">
+          <!-- Dropdown for Brand -->
           <div class="bannerTopCards">
-            <h6>band</h6>
-            <p>puma ^</p>
+            <h6>Brand</h6>
+            <select class="select">
+              <option value="puma">Puma</option>
+              <option value="adidas">Adidas</option>
+              <option value="nike">Nike</option>
+              <option value="fila">Fila</option>
+              <option value="next">Next</option>
+            </select>
           </div>
-
+      
+          <!-- Dropdown for Gender -->
           <div class="bannerTopCards">
             <h6>Gender</h6>
-            <p>Male ^</p>
+            <select class="select">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
-
+      
+          <!-- Dropdown for Size -->
           <div class="bannerTopCards">
             <h6>Size</h6>
-            <p>Large ^</p>
+            <select class="select">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
           </div>
-
+      
+          <!-- Dropdown for Price -->
           <div class="bannerTopCards">
             <h6>Price</h6>
-            <p>$150 ^</p>
+            <select class="select">
+              <option value="150">$150</option>
+              <option value="200">$200</option>
+              <option value="300">$300</option>
+              <option value="400">$400</option>
+              <option value="500">$500</option>
+            </select>
           </div>
-
-          <button class="button">Buy Now</button>
+      
+          <!-- Add to Cart Button -->
+          <button class="add-to-cart">Add to Cart</button>
         </div>
       </section>
-
+      
       <section class="secThree">
         <div class="vidSec genLayout">
           <h4>Video</h4>
@@ -89,12 +113,13 @@
             gaming controllers)
           </p>
         </div>
-
+      
         <div>
-          <video width="640" height="360" controls autoplay>
+          <video class="video" width="640" height="360" controls>
             <source src="video1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+         
         </div>
       </section>
 
