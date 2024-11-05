@@ -240,6 +240,29 @@
 .itemprice button:hover {
   background-color: #333;
 }
+/* cart section */
+.cart-section {
+  margin-top: 2rem;
+}
+
+.cart-items {
+  border: 1px solid #ddd;
+  padding: 1rem;
+}
+
+.cart-items div {
+  margin-bottom: 1rem;
+}
+
+.clear-cart {
+  background-color: #ff4500;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
 /* section 6*/
 
