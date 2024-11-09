@@ -14,7 +14,7 @@
 .topmostNav {
   background-color: bisque;
   padding-block: 1rem;
-  position: fixed;
+  position: sticky;
   width: 100%;
   z-index: 10;
 }
