@@ -1,45 +1,51 @@
-// Select all add-to-cart buttons
 // Constants
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
 const cartSection = document.querySelector('.cart-section');
 const cartItemsContainer = document.querySelector('.cart-items');
 const totalElement = document.querySelector('.total');
 const clearCartButton = document.querySelector('.clear-cart');
+const videoElement = document.querySelector('.video');
+const playButton = document.querySelector('.play-button');
+const secTwoAddToCartButton = document.querySelector('.secTwo .add-to-cart');
 
-// Cart initialization
+// Initialize cart
 let cart = [];
-
-// Event listeners for add-to-cart buttons
-addToCartButtons.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    const itemInfo = getItemInfo(e.target.parentNode);
-    cart.push(itemInfo);
-    console.log(`Total Amount: $${calculateTotal().toFixed(2)}`);
-    updateCartDisplay();
-    saveCartToLocalStorage();
-  });
-});
 
 // Helper function to get item info
 function getItemInfo(itemNode) {
+  if (!itemNode) return null;
   return {
-    name: itemNode.querySelector('h6').textContent,
-    price: itemNode.querySelector('p:nth-child(4)').textContent.trim(),
+    name: itemNode.querySelector('h6')?.textContent || 'Unknown Product',
+    price: itemNode.querySelector('p:nth-child(4)')?.textContent.trim() || '$0.00',
+  };
+}
+
+// Function to get item details from `.secTwo`
+function getItemDetails() {
+  const productBrand = document.querySelector('.secTwo .bannerTopCards:nth-child(1) select')?.value || 'Unknown';
+  const productGender = document.querySelector('.secTwo .bannerTopCards:nth-child(2) select')?.value || 'Unknown';
+  const productSize = document.querySelector('.secTwo .bannerTopCards:nth-child(3) select')?.value || 'Unknown';
+  const productPrice = document.querySelector('.secTwo .bannerTopCards:nth-child(4) select')?.value || '0';
+  
+  return {
+    name: `${productBrand} - ${productGender} - ${productSize}`,
+    price: `$${productPrice}`,
   };
 }
 
 // Update cart display function
 function updateCartDisplay() {
+  if (!cartItemsContainer) return;
   cartItemsContainer.innerHTML = '';
   cart.forEach((item, index) => {
     const cartItemElement = document.createElement('div');
-cartItemElement.innerHTML = `
+    cartItemElement.innerHTML = `
       ${item.name} - ${item.price}
       <button class="remove-from-cart" data-index="${index}">Remove</button>
     `;
     cartItemsContainer.appendChild(cartItemElement);
   });
-  totalElement.textContent = `$${calculateTotal().toFixed(2)}`;
+  if (totalElement) totalElement.textContent = `$${calculateTotal().toFixed(2)}`;
   setupRemoveEventListeners();
 }
 
@@ -64,71 +70,129 @@ function loadCartFromLocalStorage() {
     updateCartDisplay();
   }
 }
-// Load cart from local storage on page load
-loadCartFromLocalStorage();
 
 // Setup event listeners for remove buttons
 function setupRemoveEventListeners() {
-  cartItemsContainer.addEventListener('click', (e) => {
-    if (e.target.classList.contains('remove-from-cart')) {
-      const index = e.target.getAttribute('data-index');
+  if (cartItemsContainer) {
+    cartItemsContainer.removeEventListener('click', handleRemoveFromCart);
+    cartItemsContainer.addEventListener('click', handleRemoveFromCart);
+  }
+}
+
+function handleRemoveFromCart(e) {
+  if (e.target && e.target.classList.contains('remove-from-cart')) {
+    const index = e.target.getAttribute('data-index');
+    if (index) {
       cart.splice(index, 1);
+      updateCartDisplay();
+      saveCartToLocalStorage();
+    }
+  }
+}
+
+// Event listeners
+
+// Add to cart for all buttons
+if (addToCartButtons) {
+  addToCartButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const itemInfo = getItemInfo(e.target.closest('.itemprice'));
+      if (itemInfo) {
+        cart.push(itemInfo);
+        console.log(`Total Amount: $${calculateTotal().toFixed(2)}`);
+        updateCartDisplay();
+        saveCartToLocalStorage();
+      }
+    });
+  });
+}
+
+// Add to cart for .secTwo button
+if (secTwoAddToCartButton) {
+  secTwoAddToCartButton.addEventListener('click', () => {
+    const itemInfo = getItemDetails();
+    if (itemInfo) {
+      cart.push(itemInfo);
       updateCartDisplay();
       saveCartToLocalStorage();
     }
   });
 }
 
-// Clear cart event listener
-clearCartButton.addEventListener('click', () => {
-  cart = [];
-  updateCartDisplay();
-  saveCartToLocalStorage();
-});
+// Clear cart
+if (clearCartButton) {
+  clearCartButton.addEventListener('click', () => {
+    cart = [];
+    updateCartDisplay();
+    saveCartToLocalStorage();
+  });
+}
 
+// Video controls
+if (playButton && videoElement) {
+  playButton.addEventListener('click', toggleVideoPlay);
+}
 
-
-
-
-// Select video and play button elements
-const videoElement = document.querySelector('.video');
-const playButton = document.querySelector('.play-button');
-
-// Function to play/pause the video
 function toggleVideoPlay() {
   if (videoElement.paused) {
     videoElement.play();
-    playButton.textContent = "Pause";
+    if (playButton) playButton.textContent = "Pause";
   } else {
     videoElement.pause();
-    playButton.textContent = "Play";
+    if (playButton) playButton.textContent = "Play";
   }
 }
 
-// Add event listener to play button
-playButton.addEventListener('click', toggleVideoPlay);
+// Load cart from local storage on page load
+document.addEventListener('DOMContentLoaded', loadCartFromLocalStorage);
 
 
-// Select the add-to-cart button in `.secTwo` section
-const secTwoAddToCartButton = document.querySelector('.secTwo .add-to-cart');
+// Function to handle form submission
+function handleFormSubmit(event, form) {
+  event.preventDefault(); // Prevent the default form submission
 
-// Function to get item details from `.secTwo`
-function getItemDetails() {
-  const productBrand = document.querySelector('.secTwo .bannerTopCards:nth-child(1) p').textContent;
-  const productGender = document.querySelector('.secTwo .bannerTopCards:nth-child(2) p').textContent;
-  const productSize = document.querySelector('.secTwo .bannerTopCards:nth-child(3) p').textContent;
-  const productPrice = document.querySelector('.secTwo .bannerTopCards:nth-child(4) p').textContent;
+  const emailInput = form.querySelector('input[type="email"]');
+  const email = emailInput.value.trim();
 
-  return {
-    name: `${productBrand} - ${productGender} - ${productSize}`,
-    price: productPrice.trim(),
-  };
+  // Simple email validation
+  if (!validateEmail(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Here you would typically make an AJAX call to submit the form data to the server
+  // For this example, we'll just log the email to console
+  console.log('Email submitted:', email);
+
+  // Clear the input field after submission
+  emailInput.value = '';
+
+  // Show success message to user
+  alert('Thank you for submitting your email!');
 }
 
-// Add event listener to `.secTwo` add-to-cart button
-secTwoAddToCartButton.addEventListener('click', () => {
-  const itemInfo = getItemDetails();
-  cart.push(itemInfo);
-  updateCartDisplay();
-  saveCartToLocalStorage();
+// Email validation function
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Select both forms
+  const contactForm = document.querySelector('.cont-content .newsletterForm');
+  const newsletterForm = document.querySelector('.sign .newsletterForm');
+
+  // Add event listeners to both forms
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+      handleFormSubmit(event, contactForm);
+    });
+  }
+
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(event) {
+      handleFormSubmit(event, newsletterForm);
+    });
+  }
 });
